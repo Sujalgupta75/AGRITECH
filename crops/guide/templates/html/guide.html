@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f3f8f3;
+        margin: 0;
+        padding: 0;
+    }
+
+    .guide-container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 30px 0;
+    }
+
+    .heading {
+        text-align: center;
+        font-size: 2.3rem;
+        font-weight: 700;
+        color: #2a6f2a; /* Dark crop green */
+        margin-bottom: 20px;
+    }
+
+    /* Video Grid */
+    .video-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .video-card {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        border: 2px solid #d1e8d1; /* Light crop green */
+        transition: transform .2s;
+    }
+
+    .video-card:hover {
+        transform: translateY(-5px);
+    }
+
+    iframe {
+        width: 100%;
+        height: 220px;
+        border-radius: 10px;
+        border: none;
+    }
+
+    .btn-load-more {
+        display: block;
+        margin: 35px auto 0;
+        padding: 12px 30px;
+        background: #2e8b2e;
+        color: white;
+        font-size: 1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .btn-load-more:hover {
+        background: #256d25;
+    }
+
+    /* RESPONSIVE */
+    @media(max-width: 700px) {
+        .video-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="guide-container">
+    <h1 class="heading">Crop Guide & Recommendations</h1>
+
+    <div id="videoGrid" class="video-grid">
+        <!-- Default 4 Videos -->
+        <div class="video-card">
+            <iframe width="356" height="634"
+                src="https://www.youtube.com/embed/y9dDT1KKA14"
+                title="मिट्टी की सेहत ऑनलाइन"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="video-card">
+            <iframe width="914" height="514" src="https://www.youtube.com/embed/SFKz_aEFfZw" title="soil health card scheme | soil health card | soil health card kaise banaye | soil health" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-card">
+            <iframe width="914" height="514" src="https://www.youtube.com/embed/NbavN0ZnQmo" title="2 Acres to 1.5 Lakh/month: Transforming Small Farms into Profit Machines | AgriTalk by Abhinav Roy" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-card">
+            <iframe width="914" height="514" src="https://www.youtube.com/embed/SL_8DvqrlUQ" title="Soil Chemistry, Nutrient Cycling and Soil Biology | Graham Lancaster" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <button class="btn-load-more" onclick="loadMoreVideos()">Load More Videos</button>
+</div>
+
+<script>
+    // Add more YouTube videos dynamically
+    const extraVideos = [
+        "VIDEO_ID_5",
+        "VIDEO_ID_6",
+        "VIDEO_ID_7",
+        "VIDEO_ID_8",
+        "VIDEO_ID_9"
+    ];
+
+    function loadMoreVideos() {
+        const grid = document.getElementById("videoGrid");
+
+        extraVideos.forEach(id => {
+            const card = document.createElement("div");
+            card.classList.add("video-card");
+            card.innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${id}" allowfullscreen></iframe>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Disable button after loading
+        document.querySelector(".btn-load-more").disabled = true;
+        document.querySelector(".btn-load-more").innerText = "All Videos Loaded";
+    }
+</script>
+
+{% endblock %}

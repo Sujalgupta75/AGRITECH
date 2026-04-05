@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* Layout */
+.container-box {
+    width: 90%;
+    margin: 30px auto;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+/* Card */
+.card-box {
+    flex: 1;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-width: 350px;
+}
+
+/* Headings */
+.card-box h2 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+}
+
+/* Form Inputs */
+.form-control {
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    background: #fafafa;
+    transition: 0.3s;
+}
+
+.form-control:focus {
+    border-color: #2d6a4f;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(0,123,255,0.4);
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    background: #2d6a4f;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: #2d6a4f;
+    transform: translateY(-1px);
+}
+
+/* Prediction Section */
+.pred-line {
+    margin-bottom: 12px;
+    font-size: 17px;
+    color: #222;
+}
+
+.pred-title {
+    margin-bottom: 20px;
+}
+
+.error-msg {
+    color: red;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+</style>
+
+
+<div class="container-box">
+
+    <!-- LEFT: FORM -->
+    <div class="card-box">
+        <h2>Crop Price Prediction</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>State</label>
+            <select id="state" name="state" class="form-control" required>
+                <option value="">Select State</option>
+                {% for s in df_states %}
+                <option value="{{ s }}">{{ s }}</option>
+                {% endfor %}
+            </select>
+
+            <label>District</label>
+            <select id="district" name="district" class="form-control" required>
+                <option value="">Select District</option>
+            </select>
+
+            <label>Mandi Name</label>
+            <select id="mandi" name="mandi" class="form-control" required>
+                <option value="">Select Mandi</option>
+            </select>
+
+            <label>Commodity</label>
+            <select id="commodity" name="commodity" class="form-control" required>
+                <option value="">Select Commodity</option>
+            </select>
+
+            <button type="submit" class="btn-primary">Predict Price</button>
+        </form>
+    </div>
+
+
+    <!-- RIGHT: RESULT -->
+    <div class="card-box">
+        <h2 class="pred-title">Prediction Result</h2>
+
+        {% if error_message %}
+        <p class="error-msg">{{ error_message }}</p>
+        {% endif %}
+
+        {% if prediction %}
+            <p class="pred-line"><strong>Min Price:</strong> {{ min_price }} Rs</p>
+            <p class="pred-line"><strong>Max Price:</strong> {{ max_price }} Rs</p>
+            <p class="pred-line"><strong>Predicted Price:</strong> {{ prediction }} Rs</p>
+        {% else %}
+            <p class="pred-line">Fill the form to get the crop price prediction.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+
+<script>
+document.getElementById("state").addEventListener("change", function () {
+    let state = this.value;
+
+    fetch(`/crop_price/api/districts/?state=` + state)
+        .then(res => res.json())
+        .then(data => {
+            let district = document.getElementById("district");
+            district.innerHTML = `<option value="">Select District</option>`;
+            data.districts.forEach(d => {
+                district.innerHTML += `<option value="${d}">${d}</option>`;
+            });
+        });
+});
+
+
+document.getElementById("district").addEventListener("change", function () {
+    let state = document.getElementById("state").value;
+    let district = this.value;
+
+    fetch(`/crop_price/api/mandis/?state=${state}&district=${district}`)
+        .then(res => res.json())
+        .then(data => {
+            let mandi = document.getElementById("mandi");
+            mandi.innerHTML = `<option value="">Select Mandi</option>`;
+            data.mandis.forEach(m => {
+                mandi.innerHTML += `<option value="${m}">${m}</option>`;
+            });
+        });
+});
+
+
+document.getElementById("mandi").addEventListener("change", function () {
+    let state = document.getElementById("state").value;
+    let district = document.getElementById("district").value;
+    let mandi = this.value;
+
+    fetch(`/crop_price/api/commodities/?state=${state}&district=${district}&mandi=${mandi}`)
+        .then(res => res.json())
+        .then(data => {
+            let commodity = document.getElementById("commodity");
+            commodity.innerHTML = `<option value="">Select Commodity</option>`;
+            data.commodities.forEach(c => {
+                commodity.innerHTML += `<option value="${c}">${c}</option>`;
+            });
+        });
+});
+</script>
+
+{% endblock %}

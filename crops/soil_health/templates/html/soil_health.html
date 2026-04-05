@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .nutrient-container {
+        display: flex;
+        width: 100%;
+        gap: 40px;
+        padding: 20px;
+        flex-wrap: wrap;
+    }
+
+    .box {
+        width: 48%;
+        min-width: 300px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        background: #fafafa;
+        box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 8px;
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    label {
+        font-weight: 500;
+        margin-top: 10px;
+        display: block;
+        color: #444;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #bbb;
+        border-radius: 8px;
+        margin-top: 6px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    input:focus {
+        border-color: #2d6a4f;
+        box-shadow: 0px 0px 3px #2d6a4f;
+    }
+
+    .predict-btn {
+        width: 100%;
+        margin-top: 20px;
+        background: #2d6a4f;
+        color: white;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .predict-btn:hover {
+        background: #2d6a4f;
+    }
+
+    .prediction-text {
+        font-size: 26px;
+        font-weight: 700;
+        color: #1e8a2f;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="nutrient-container">
+
+    <!-- Left side form -->
+    <div class="box">
+        <h2>Enter Soil Nutrients</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            
+            <label>Nitrogen (N)</label>
+            <input type="number" name="N" required>
+
+            <label>Phosphorus (P)</label>
+            <input type="number" name="P" required>
+
+            <label>Potassium (K)</label>
+            <input type="number" name="K" required>
+
+            <label>Temperature (°C)</label>
+            <input type="number" step="0.1" name="temperature" required>
+
+            <label>pH Value</label>
+            <input type="number" step="0.1" name="ph" required>
+
+            <label>Rainfall (mm)</label>
+            <input type="number" name="rainfall" required>
+
+            <label>Humidity (%)</label>
+            <input type="number" name="humidity" required>
+
+            <button type="submit" class="predict-btn">Predict Crop</button>
+        </form>
+    </div>
+
+    <!-- Right side prediction -->
+    <div class="box">
+        <h2>Prediction Result</h2>
+
+        {% if prediction %}
+            <h3>Your Recommended Crop:</h3>
+            <div class="prediction-text">
+                {{ prediction }}
+            </div>
+        {% else %}
+            <p>No prediction yet. Enter values and hit submit.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+{% endblock %}

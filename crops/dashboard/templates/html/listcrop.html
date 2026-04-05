@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}Crop Recommendation & Map{% endblock %}
+
+{% block content %}
+
+<style>
+  .container-panel {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    border: 1px solid #ccc;
+  }
+
+  .left-panel, .right-panel {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .left-top {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    background-color: #e9ecef;
+  }
+
+  iframe {
+    width: 90%;
+    height: 90%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+
+  .left-bottom {
+    height: 50%;
+    background-color: #f8f9fa;
+    padding: 30px;
+  }
+
+  label { font-weight: bold; }
+  select, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+
+  button {
+    background-color: #2d6a4f;
+    color: white;
+    margin-top: 15px;
+    cursor: pointer;
+  }
+
+  button:hover { background-color: #2d6a4f; }
+
+  .right-panel {
+    padding: 20px 30px;
+    background-color: #fdfdfd;
+    overflow-y: auto;
+  }
+
+  .season-box {
+    background: #ffffff;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .season-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2d6a4f;
+    margin-bottom: 10px;
+  }
+
+  .crop-item {
+    font-size: 16px;
+    padding-left: 20px;
+    margin: 4px 0;
+  }
+</style>
+
+<div class="container-panel">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    
+    <div class="left-top">
+      <iframe id="mapFrame"
+        src="https://www.google.com/maps?q={{ selected_district|default:'India' }}+{{ selected_state|default:'' }}&output=embed">
+      </iframe>
+    </div>
+
+    <div class="left-bottom">
+
+      <h2>Select Location</h2>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <label>Select State</label>
+        <select name="state" id="state" onchange="updateDistricts()">
+          <option value="">-- Select State --</option>
+
+          {% for s in states %}
+            <option value="{{ s }}" {% if selected_state == s %}selected{% endif %}>{{ s }}</option>
+
+          {% endfor %}
+        </select>
+
+        <label>Select District</label>
+        <select name="district" id="district">
+          <option value="">-- Select District --</option>
+        
+          {% for d in districts %}
+            <option value="{{ d }}" {% if selected_district == d %}selected{% endif %}>{{ d }}</option>
+          {% endfor %}
+        </select>
+
+
+        <button type="submit">Get Recommended Crops</button>
+      </form>
+
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <h2>Recommended Crops</h2>
+
+    {% if error %}
+      <p style="color: red; font-size: 18px;">{{ error }}</p>
+    {% endif %}
+
+    {% if kharif %}
+      <div class="season-box">
+        <div class="season-title">Kharif Season</div>
+        {% if kharif|length == 0 %}
+          <p>No crops found.</p>
+        {% else %}
+          {% for c in kharif %}
+            <p class="crop-item">• {{ c }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if rabi %}
+      <div class="season-box">
+        <div class="season-title">Rabi Season</div>
+        {% if rabi|length == 0 %}
+          <p>No crops found.</p>
+        {% else %}
+          {% for c in rabi %}
+            <p class="crop-item">• {{ c }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if whole %}
+      <div class="season-box">
+        <div class="season-title">Whole Year Crops</div>
+        {% if whole|length == 0 %}
+          <p>No crops found.</p>
+        {% else %}
+          {% for c in whole %}
+            <p class="crop-item">• {{ c }}</p>
+          {% endfor %}
+        {% endif %}
+      </div>
+    {% endif %}
+
+  </div>
+
+</div>
+
+
+<script>
+  // Dynamic district loading using Django data
+  const allDistricts = JSON.parse('{{ district_json|safe }}');
+
+  function updateDistricts() {
+    const state = document.getElementById("state").value;
+    const districtSelect = document.getElementById("district");
+
+    districtSelect.innerHTML = '<option value="">-- Select District --</option>';
+
+    if (allDistricts[state]) {
+      allDistricts[state].forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = d;
+        districtSelect.appendChild(opt);
+      });
+    }
+  }
+</script>
+
+{% endblock %}

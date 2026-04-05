@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Farmers Friend{% endblock %}</title>
+
+    {% load static %}
+
+    <style>
+        /* Global Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", Arial, sans-serif;
+            background: #f5f9f3; /* light agriculture tone */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: #2d3a2d;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2d6a4f; /* rich green */
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-left img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .navbar-left a {
+            font-size: 1.6em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        /* Right Menu */
+        .navbar-right a {
+            text-decoration: none;
+            color: #e9f5ec;
+            margin-left: 35px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        .navbar-right a:hover {
+            background: #40916c;
+            color: white;
+        }
+
+        /* Main Section */
+        main {
+            flex: 1;
+            padding: 40px 60px;
+        }
+
+        /* Footer */
+        footer {
+            background: #1b4332;
+            color: #dfffea;
+            text-align: center;
+            padding: 25px 0;
+            margin-top: 40px;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+        }
+
+        footer p {
+            margin: 8px 0;
+            font-size: 0.95rem;
+        }
+
+        footer a {
+            color: #b7f3d4;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: 0.3s;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="navbar-left">
+            <img src="{% static 'images/logo.png' %}" alt="Logo">
+            <a href="{% url 'home' %}">FARMERS FRIEND</a>
+        </div>
+
+        <nav class="navbar-right">
+            <a href="{% url 'listcrop' %}">Crops</a>
+            <a href="{% url 'soil_health' %}">Nutrients</a>
+            <a href="{% url 'fertilizer' %}">Fertilizers</a>
+            <a href="{% url 'crop_price' %}">Crop Price</a>
+            <a href="{% url 'weather' %}">Weather</a>
+            <a href="{% url 'guide' %}">Guide</a>
+        </nav>
+    </header>
+
+    <!-- Page Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© {{ current_year|default:"2025" }} FARMERS FRIEND | All Rights Reserved</p>
+        <p>
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms & Conditions</a>
+        </p>
+    </footer>
+
+</body>
+</html>

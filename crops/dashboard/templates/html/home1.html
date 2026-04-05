@@ -1,0 +1,414 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================
+      HEADER SECTION
+=========================== */
+.header-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 5%;
+    background: #ebfde7ff;
+    gap: 40px;
+}
+
+.header-left img {
+    width: 100%;
+    max-width: 450px;
+    object-fit: contain;
+}
+
+.header-right {
+    flex: 1;
+}
+
+.main-heading {
+    font-size: 45px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 15px;
+}
+
+.sub-heading {
+    font-size: 21px;
+    color: #3a5a40;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.header-btn {
+    display: inline-block;
+    background: #2d6a4f;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.header-btn:hover {
+    background: #40916c;
+}
+
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .header-left img {
+        max-width: 300px;
+    }
+    .main-heading {
+        font-size: 28px;
+    }
+}
+
+/* =========================
+      FEATURES SECTION
+=========================== */
+.features-section {
+    width: 100%;
+    padding: 60px 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Zig-Zag Layout */
+.left-card {
+    flex-direction: row;
+}
+
+.right-card {
+    flex-direction: row-reverse;
+}
+
+.feature-img img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 15px;
+}
+
+.feature-info {
+    flex: 1;
+}
+
+.feature-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 15px;
+}
+
+.feature-desc {
+    font-size: 18px;
+    color: #3a5a40;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.feature-btn {
+    display: inline-block;
+    background: #2d6a4f;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.feature-btn:hover {
+    background: #40916c;
+}
+
+.feature-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .feature-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .right-card {
+        flex-direction: column;
+    }
+    .feature-buttons {
+        justify-content: center;
+    }
+    .feature-img img {
+        max-width: 280px;
+    }
+}
+
+.course-section {
+    width: 100%;
+    padding: 70px 6%;
+    background: #f0fff0;
+}
+
+.course-heading {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 50px;
+}
+
+/* CONTAINER FOR 2 HORIZONTAL CARDS */
+.course-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+/* INDIVIDUAL CARD */
+.course-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Image */
+.course-card img {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+/* Text */
+.course-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.course-desc {
+    font-size: 18px;
+    color: #3a5a40;
+    line-height: 1.6;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Button */
+.course-btn {
+    display: inline-block;
+    background: #2d6a4f;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.course-btn:hover {
+    background: #40916c;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .course-container {
+        flex-direction: column;
+    }
+}
+
+
+/* ABOUT SECTION */
+.about-section {
+    padding: 80px 20px;
+    text-align: center;
+    background: #f8fff5;
+}
+
+.about-section h2 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #2f8f2f;
+    font-weight: 700;
+}
+
+.about-section p {
+    max-width: 900px;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.8;
+    color: #333;
+}
+
+</style>
+
+
+
+<!-- =========================
+      HEADER SECTION
+=========================== -->
+
+<section class="header-section">
+
+    <div class="header-left">
+        <img src="{% static 'images/dash_img_.png' %}" alt="Dashboard Image">
+    </div>
+
+    <div class="header-right">
+        <h1 class="main-heading">All-in-One Agriculture Support App</h1>
+
+        <p class="sub-heading">
+            From choosing the best crop to learning modern techniques,
+            checking fertilizer needs, and predicting market prices —
+            everything a farmer needs is available in one smart application.
+        </p>
+
+        <a href="{% url 'listcrop' %}" class="header-btn">Get Started</a>
+        <a href="{% url 'logout' %}" style="margin-left: 15px;">Logout</a>
+    </div>
+
+</section>
+
+
+
+
+
+<!-- =========================
+      FEATURES SECTION
+=========================== -->
+
+<section class="features-section">
+
+    <!-- 1️⃣ Crop Recommendation -->
+    <div class="feature-card left-card">
+        <div class="feature-img">
+            <img src="{% static 'images/crop_re.webp' %}" alt="Crop Recommendation">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Crop Recommendation</h2>
+            <p class="feature-desc">
+               Understand your land better with a smart tool that analyzes soil nutrients and your region’s climate.
+                Based on scientific data and crop requirements, we suggest the best crop suited for your field.
+                Make confident decisions and increase your production with expert-backed recommendations.
+            </p>
+
+            <div class="feature-buttons">
+                <a href="{% url 'listcrop' %}" class="feature-btn">Based on Location</a>
+                <a href="{% url 'soil_health' %}" class="feature-btn">Based on Nutrients</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 2️⃣ Fertilizer Recommendation -->
+    <div class="feature-card right-card">
+
+        <div class="feature-img">
+            <img src="{% static 'images/fertilizer.webp' %}" alt="Fertilizer">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Fertilizer Recommendation</h2>
+            <p class="feature-desc">
+                Understand exactly which nutrients your soil is lacking and get the right fertilizer for maximum growth.
+                We analyze your soil report and match it with crop needs to give precise suggestions.
+                Improve plant strength, boost yield, and reduce unnecessary fertilizer usage.
+            </p>
+
+            <a href="{% url 'fertilizer' %}" class="feature-btn">Fertilizer Guide</a>
+        </div>
+    </div>
+
+
+    <!-- 3️⃣ Price Prediction -->
+    <div class="feature-card left-card">
+        <div class="feature-img">
+            <img src="{% static 'images/price.jpg' %}" alt="Price Prediction">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Price Prediction</h2>
+            <p class="feature-desc">
+                “Our advanced model analyzes years of price data, demand cycles, and market behavior.
+                It predicts where the price of your crop is headed in the coming days or weeks.
+                Plan your sale strategically and get the highest possible return.
+            </p>
+
+            <a href="{% url 'crop_price' %}" class="feature-btn">Check Prices</a>
+        </div>
+    </div>
+
+</section>
+
+
+<section class="course-section">
+
+    <h2 class="course-heading">Our Courses</h2>
+
+    <div class="course-container">
+
+        <!-- COURSE 1 -->
+        <div class="course-card">
+            <img src="{% static 'images/coursex.avif' %}" alt="Course 1">
+            <h3 class="course-title">Modern Farming Mastery</h3>
+            <p class="course-desc">
+                Learn modern farming techniques, irrigation, crop protection, and
+                soil management skills needed for profitable farming.
+            </p>
+            <a href="{% url 'guide' %}" class="course-btn">Start Learning</a>
+        </div>
+
+        <!-- COURSE 2 -->
+        <div class="course-card">
+            <img src="{% static 'images/coursey.avif' %}" alt="Course 2">
+            <h3 class="course-title">Soil & Fertilizer Expert Course</h3>
+            <p class="course-desc">
+                Master soil nutrients, fertilizer types, and correct application  
+                methods to improve soil health and crop yield.
+            </p>
+            <a href="{% url 'guide' %}" class="course-btn">Start Learning</a>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="about-section">
+    <h2>About Our Application</h2>
+    <p>
+        Our application is designed to empower farmers with smart and reliable tools. 
+        From crop recommendation to fertilizer planning, learning resources, and 
+        price prediction — we bring everything into one simple platform. 
+        Our goal is to help farmers make better decisions, improve productivity, 
+        and increase their overall income with the power of modern technology.
+    </p>
+</section>
+
+{% endblock %}

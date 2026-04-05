@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* =========================
+      HEADER SECTION
+=========================== */
+.header-section {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 60px 5%;
+    background: #f5fff3;
+    gap: 40px;
+}
+
+.header-left img {
+    width: 100%;
+    max-width: 450px;
+    object-fit: contain;
+}
+
+.header-right {
+    flex: 1;
+}
+
+.main-heading {
+    font-size: 45px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 15px;
+}
+
+.sub-heading {
+    font-size: 21px;
+    color: #3a5a40;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.header-btn {
+    display: inline-block;
+    background: #2d6a4f;
+    color: white;
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.header-btn:hover {
+    background: #40916c;
+}
+
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        text-align: center;
+    }
+    .header-left img {
+        max-width: 300px;
+    }
+    .main-heading {
+        font-size: 28px;
+    }
+}
+
+/* =========================
+      FEATURES SECTION
+=========================== */
+.features-section {
+    width: 100%;
+    padding: 60px 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Zig-Zag Layout */
+.left-card {
+    flex-direction: row;
+}
+
+.right-card {
+    flex-direction: row-reverse;
+}
+
+.feature-img img {
+    width: 100%;
+    max-width: 350px;
+    border-radius: 15px;
+}
+
+.feature-info {
+    flex: 1;
+}
+
+.feature-title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #2d6a4f;
+    margin-bottom: 15px;
+}
+
+.feature-desc {
+    font-size: 18px;
+    color: #3a5a40;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.feature-btn {
+    display: inline-block;
+    background: #2d6a4f;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.feature-btn:hover {
+    background: #40916c;
+}
+
+.feature-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .feature-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    .right-card {
+        flex-direction: column;
+    }
+    .feature-buttons {
+        justify-content: center;
+    }
+    .feature-img img {
+        max-width: 280px;
+    }
+}
+
+</style>
+
+
+
+<!-- =========================
+      HEADER SECTION
+=========================== -->
+
+<section class="header-section">
+
+    <div class="header-left">
+        <img src="{% static 'images/dash_img_.png' %}" alt="Dashboard Image">
+    </div>
+
+    <div class="header-right">
+        <h1 class="main-heading">All-in-One Agriculture Support App</h1>
+
+        <p class="sub-heading">
+            From choosing the best crop to learning modern techniques,
+            checking fertilizer needs, and predicting market prices —
+            everything a farmer needs is available in one smart application.
+        </p>
+
+        <a href="#" class="header-btn">Get Started</a>
+        <a href="{% url 'logout' %}" style="margin-left: 15px;">Logout</a>
+    </div>
+
+</section>
+
+
+
+
+
+<!-- =========================
+      FEATURES SECTION
+=========================== -->
+
+<section class="features-section">
+
+    <!-- 1️⃣ Crop Recommendation -->
+    <div class="feature-card left-card">
+        <div class="feature-img">
+            <img src="{% static 'images/crop.webp' %}" alt="Crop Recommendation">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Crop Recommendation</h2>
+            <p class="feature-desc">
+                Get accurate recommendations for the best crop based on soil nutrients
+                and geographic location.
+            </p>
+
+            <div class="feature-buttons">
+                <a href="#" class="feature-btn">Based on Location</a>
+                <a href="#" class="feature-btn">Based on Nutrients</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 2️⃣ Fertilizer Recommendation -->
+    <div class="feature-card right-card">
+
+        <div class="feature-img">
+            <img src="{% static 'images/dash_img_.png' %}" alt="Fertilizer">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Fertilizer Recommendation</h2>
+            <p class="feature-desc">
+                Know exactly which fertilizer your soil needs for the best growth.
+            </p>
+
+            <a href="#" class="feature-btn">Fertilizer Guide</a>
+        </div>
+    </div>
+
+
+    <!-- 3️⃣ Price Prediction -->
+    <div class="feature-card left-card">
+        <div class="feature-img">
+            <img src="{% static 'images/dash_img_.png' %}" alt="Price Prediction">
+        </div>
+
+        <div class="feature-info">
+            <h2 class="feature-title">Price Prediction</h2>
+            <p class="feature-desc">
+                Get intelligent crop price predictions to sell at the right time.
+            </p>
+
+            <a href="#" class="feature-btn">Check Prices</a>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}

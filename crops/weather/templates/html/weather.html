@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+form {
+    margin-bottom: 30px;
+}
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    background: #2d6a4f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background: #2d6a4f;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+th {
+    background: #2d6a4f;
+    color: white;
+}
+tr:hover {
+    background: #f4f4f4;
+}
+.error {
+    color: red;
+    text-align: center;
+}
+</style>
+
+<div class="container">
+    <h2>Weather Forecast (Next 6 Days)</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="state">Select State:</label>
+        <select id="state" name="state">
+            <option value="">--Select State--</option>
+            {% for st in states %}
+                <option value="{{ st }}">{{ st }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="district">Select District:</label>
+        <select id="district" name="district">
+            <option value="">--Select District--</option>
+        </select>
+
+        <button type="submit">Get Weather</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if city_name %}
+        <h3 style="text-align:center;">{{ city_name }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date (Unix)</th>
+                    <th>Temp (°C)</th>
+                    <th>Feels Like (°C)</th>
+                    <th>Humidity (%)</th>
+                    <th>Weather</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for day in forecast %}
+                <tr>
+                    <td>{{ day.date }}</td>
+                    <td>{{ day.temp }}</td>
+                    <td>{{ day.feels_like }}</td>
+                    <td>{{ day.humidity }}</td>
+                    <td>{{ day.weather }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+<script>
+const stateDistricts = {{ state_districts|safe }};
+const stateSel = document.getElementById('state');
+const districtSel = document.getElementById('district');
+
+stateSel.addEventListener('change', function() {
+    const selectedState = this.value;
+    districtSel.innerHTML = '<option value="">--Select District--</option>';
+    if (selectedState && stateDistricts[selectedState]) {
+        stateDistricts[selectedState].forEach(dist => {
+            const opt = document.createElement('option');
+            opt.value = dist;
+            opt.textContent = dist;
+            districtSel.appendChild(opt);
+        });
+    }
+});
+</script>
+
+{% endblock %}
